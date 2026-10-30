@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fashion Dream 3D</title>
+<style>
+:root{--pink:#ff72b6;--pink2:#ffc2df;--ink:#49354e;--cream:#fff8fc;--purple:#a98bff}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(135deg,#fff4fa,#f0eaff 55%,#fff7e9);min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px clamp(14px,4vw,42px);background:#ffffffb8;backdrop-filter:blur(14px);border-bottom:1px solid #fff}
+.logo{font-weight:1000;font-size:clamp(18px,3vw,27px);letter-spacing:-.7px}.logo span{color:var(--pink)}
+.pill{border:0;border-radius:999px;padding:10px 15px;background:white;color:var(--ink);font-weight:800;box-shadow:0 5px 18px #8b6ba51c;cursor:pointer}
+main{max-width:1250px;margin:auto;padding:20px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:18px}
+.panel{background:#ffffffc9;border:1px solid #fff;border-radius:28px;box-shadow:0 16px 45px #80609b18;overflow:hidden}
+.stage{position:relative;min-height:540px;background:radial-gradient(ellipse at 50% 35%,#fff 0,#fce4f2 36%,#dcd1ff 100%);isolation:isolate}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage-top{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:8px;z-index:2;pointer-events:none}
+.tag{background:#ffffffc9;border:1px solid #fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900;box-shadow:0 5px 15px #76517c17}
+.stage-bottom{position:absolute;bottom:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:end;gap:10px;z-index:2}
+.caption{background:#ffffffd9;backdrop-filter:blur(10px);border:1px solid #fff;padding:12px 15px;border-radius:18px;max-width:70%}
+.caption strong{display:block;font-size:18px}.caption small{color:#8c7693}
+.actions{display:flex;gap:8px}.iconbtn{width:42px;height:42px;border:0;border-radius:14px;background:white;font-size:19px;box-shadow:0 5px 16px #6d4c871a;cursor:pointer}
+.side{padding:20px}.eyebrow{font-size:11px;font-weight:1000;letter-spacing:1.8px;color:#d6539a;text-transform:uppercase}
+h1{font-size:clamp(23px,3vw,32px);line-height:1.05;margin:7px 0 8px;letter-spacing:-1px}.sub{margin:0 0 18px;color:#8c7893;font-size:13px}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px}.tab{border:1px solid #f3dce9;background:#fff;border-radius:13px;padding:10px 12px;font-weight:850;white-space:nowrap;cursor:pointer;color:#806a87}.tab.active{background:#ffebf5;border-color:#ff9dcc;color:#b82c79}
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:8px 0 17px}
+.option{border:1px solid #f0e2f0;border-radius:17px;padding:10px 6px;background:#fff;text-align:center;cursor:pointer;transition:.18s;min-width:0}
+.option:hover{transform:translateY(-2px);box-shadow:0 8px 18px #a56c9919}.option.selected{border:2px solid var(--pink);background:#fff0f7;padding:9px 5px}
+.swatch{width:38px;height:38px;border-radius:13px;margin:0 auto 7px;box-shadow:inset 0 0 0 1px #0000000b}
+.option b{display:block;font-size:12px}.option small{font-size:10px;color:#9a879f}
+.challenge{border-radius:20px;padding:15px;background:linear-gradient(120deg,#fff0f7,#f2edff);border:1px solid #fff;margin:10px 0 14px}
+.challenge-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.challenge h3{margin:0;font-size:15px}.score{font-size:12px;font-weight:900;color:#bd3e87}
+.challenge p{font-size:12px;color:#8b7593;margin:7px 0 12px}.progress{height:7px;border-radius:99px;background:#fff;overflow:hidden}.progress span{display:block;height:100%;width:20%;border-radius:99px;background:linear-gradient(90deg,#ff72b6,#9f83ff);transition:width .3s}
+.primary{width:100%;border:0;border-radius:16px;padding:14px 16px;color:white;font-size:14px;font-weight:1000;letter-spacing:.2px;background:linear-gradient(100deg,#ff69ad,#a47aff);box-shadow:0 9px 20px #e77cbb40;cursor:pointer}
+.primary:active{transform:scale(.99)}.hint{text-align:center;font-size:11px;color:#9b87a0;margin:10px 0 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#4d3657;color:#fff;padding:12px 18px;border-radius:99px;font-weight:800;font-size:13px;z-index:9;transition:.25s;box-shadow:0 10px 30px #4d365740}.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;padding:0 15px 24px;color:#9b87a0;font-size:11px}
+@media(max-width:820px){main{grid-template-columns:1fr;padding:12px}.stage{min-height:450px}.side{padding:17px}header{padding:13px 15px}}
+@media(max-width:420px){.stage{min-height:400px}.options{gap:7px}.option{padding:8px 3px}.option.selected{padding:7px 2px}.swatch{width:33px;height:33px}}
+</style>
+</head>
+<body>
+<header><div class="logo">✦ FASHION <span>DREAM</span> 3D</div><button class="pill" id="daily">🎁 Quà hôm nay</button></header>
+<main>
+<section class="panel stage">
+<canvas id="scene"></canvas>
+<div class="stage-top"><span class="tag">✨ STUDIO 3D</span><span class="tag" id="themeTag">🌸 Pink Fantasy</span></div>
+<div class="stage-bottom">
+ <div class="caption"><strong id="lookName">Cotton Candy Princess</strong><small>Kéo để xoay nhân vật · Chạm để khám phá</small></div>
+ <div class="actions"><button class="iconbtn" id="spin" title="Xoay">🔄</button><button class="iconbtn" id="sparkle" title="Lấp lánh">✨</button></div>
+</div>
+</section>
+<section class="panel side">
+ <div class="eyebrow">Your virtual wardrobe</div><h1>Tạo outfit trong mơ ✨</h1>
+ <p class="sub">Mix đồ, hoàn thành thử thách và trở thành fashion icon!</p>
+ <div class="tabs" id="tabs">
+  <button class="tab active" data-cat="outfit">👗 Trang phục</button><button class="tab" data-cat="hair">💇 Tóc</button><button class="tab" data-cat="shoes">👠 Giày</button><button class="tab" data-cat="accessory">💎 Phụ kiện</button>
+ </div>
+ <div class="options" id="options"></div>
+ <div class="challenge">
+  <div class="challenge-head"><h3>🎯 Thử thách hôm nay</h3><span class="score" id="score">0 / 100 điểm</span></div>
+  <p id="challengeText">Chủ đề: Công chúa kẹo ngọt — chọn outfit thật lấp lánh!</p>
+  <div class="progress"><span id="progress"></span></div>
+ </div>
+ <button class="primary" id="judge">✨ Chấm điểm outfit</button>
+ <p class="hint">Mẹo: thử nhiều màu để tìm combo hoàn hảo 💗</p>
+</section>
+</main>
+<footer>Fashion Dream 3D · Bản demo trình duyệt · Dùng chuột hoặc chạm để xoay nhân vật</footer>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+const palette={pink:0xff80ba,lavender:0xb7a0ff,blue:0x83d8ff,red:0xff637e,black:0x39334d,white:0xfff8ff,gold:0xffd36e,mint:0x82e3c1,brown:0x8d594b,blonde:0xffd46b,purple:0x9e75e8};
+const items={
+ outfit:[{name:'Kẹo dâu',color:palette.pink,desc:'Sweet',score:25},{name:'Mộng tím',color:palette.lavender,desc:'Dreamy',score:24},{name:'Thiên thần',color:palette.white,desc:'Angel',score:20},{name:'Bầu trời',color:palette.blue,desc:'Sky',score:18},{name:'Đỏ quyến rũ',color:palette.red,desc:'Bold',score:22},{name:'Dạ tiệc',color:palette.black,desc:'Chic',score:23}],
+ hair:[{name:'Hồng pastel',color:0xffa1d1,desc:'Cotton',score:20},{name:'Vàng mật ong',color:palette.blonde,desc:'Golden',score:18},{name:'Nâu mocha',color:palette.brown,desc:'Natural',score:16},{name:'Tím galaxy',color:palette.purple,desc:'Magic',score:22},{name:'Đen huyền bí',color:palette.black,desc:'Classic',score:17},{name:'Bạc ánh trăng',color:0xdde4f5,desc:'Moon',score:21}],
+ shoes:[{name:'Giày công chúa',color:palette.pink,desc:'Cute',score:18},{name:'Boots tím',color:palette.purple,desc:'Cool',score:20},{name:'Sneaker trắng',color:palette.white,desc:'Casual',score:15},{name:'Giày vàng',color:palette.gold,desc:'Luxury',score:22},{name:'Giày mint',color:palette.mint,desc:'Fresh',score:17},{name:'Boots đen',color:palette.black,desc:'Edgy',score:19}],
+ accessory:[{name:'Vương miện',color:palette.gold,desc:'Royal',score:25},{name:'Nơ xinh',color:palette.pink,desc:'Sweet',score:20},{name:'Ngôi sao',color:palette.lavender,desc:'Magic',score:23},{name:'Ngọc trai',color:palette.white,desc:'Elegant',score:19},{name:'Trái tim',color:palette.red,desc:'Lovely',score:18},{name:'Pha lê',color:palette.blue,desc:'Shiny',score:22}]
+};
+const selected={outfit:0,hair:0,shoes:0,accessory:0};let current='outfit';let score=0;
+const options=document.getElementById('options');
+function hex(c){return '#'+c.toString(16).padStart(6,'0')}
+function renderOptions(){options.innerHTML='';items[current].forEach((it,i)=>{const el=document.createElement('button');el.className='option '+(selected[current]===i?'selected':'');el.innerHTML=`<div class="swatch" style="background:${hex(it.color)}"></div><b>${it.name}</b><small>${it.desc}</small>`;el.onclick=()=>{selected[current]=i;renderOptions();updateCharacter();toast('Đã chọn '+it.name+' ✨')};options.appendChild(el)})}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));current=b.dataset.cat;renderOptions()});
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2200)}
+// Three.js scene
+const canvas=document.getElementById('scene');const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();scene.fog=new THREE.Fog(0xf7e8fa,9,22);
+const camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(0,2.7,9.6);camera.lookAt(0,1.65,0);
+scene.add(new THREE.HemisphereLight(0xffffff,0xb7a0d8,2));
+const key=new THREE.DirectionalLight(0xffffff,3);key.position.set(3,7,5);key.castShadow=true;scene.add(key);
+const rim=new THREE.PointLight(0xff8dc8,65,12);rim.position.set(-3,3,1);scene.add(rim);
+const fill=new THREE.PointLight(0x9c8aff,45,12);fill.position.set(3,2,-2);scene.add(fill);
+const mat=(color,rough=.5,metal=0)=>new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});
+const floor=new THREE.Mesh(new THREE.CircleGeometry(5,64),mat(0xfff7fd,.85));floor.rotation.x=-Math.PI/2;floor.position.y=-.04;floor.receiveShadow=true;scene.add(floor);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(1.55,.035,12,90),new THREE.MeshStandardMaterial({color:0xffffff,metalness:.5,roughness:.25,emissive:0xffb4de,emissiveIntensity:.5}));ring.rotation.x=Math.PI/2;ring.position.y=.015;scene.add(ring);
+const group=new THREE.Group();scene.add(group);
+function sphere(parent,name,pos,scale,color,rough=.55){const m=new THREE.Mesh(new THREE.SphereGeometry(1,32,24),mat(color,rough));m.name=name;m.position.set(...pos);m.scale.set(...scale);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m}
+function cyl(parent,name,pos,rt,rb,h,color){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,32),mat(color,.48));m.name=name;m.position.set(...pos);m.castShadow=true;parent.add(m);return m}
+function limb(parent,pos,scale,color){return sphere(parent,'limb',pos,scale,color)}
+const skin=0xffd0b8;
+const body=sphere(group,'body',[0,1.65,0],[.38,.58,.25],palette.pink);
+const neck=cyl(group,'neck',[0,2.24,0],.105,.11,.22,skin);
+const head=sphere(group,'head',[0,2.63,0],[.42,.49,.38],skin);
+const ears=[sphere(group,'earL',[-.405,2.62,0],[.09,.13,.08],skin),sphere(group,'earR',[.405,2.62,0],[.09,.13,.08],skin)];
+// eyes and smile placed on front
+sphere(group,'eyeL',[-.15,2.68,.337],[.045,.065,.025],0x49354e);sphere(group,'eyeR',[.15,2.68,.337],[.045,.065,.025],0x49354e);
+sphere(group,'shineL',[-.16,2.705,.36],[.014,.018,.01],0xffffff);sphere(group,'shineR',[.14,2.705,.36],[.014,.018,.01],0xffffff);
+const smile=new THREE.Mesh(new THREE.TorusGeometry(.075,.012,8,20,Math.PI),mat(0xb65c76));smile.position.set(0,2.48,.355);smile.rotation.z=Math.PI;group.add(smile);
+const blushL=sphere(group,'blushL',[-.25,2.55,.32],[.075,.035,.015],0xff9eaf);const blushR=sphere(group,'blushR',[.25,2.55,.32],[.075,.035,.015],0xff9eaf);
+const hairTop=sphere(group,'hairTop',[0,2.91,-.02],[.45,.3,.4],0xffa1d1);
+const bangs=sphere(group,'bangs',[0,2.79,.28],[.34,.19,.16],0xffa1d1);
+const hairL=sphere(group,'hairL',[-.34,2.57,-.04],[.16,.42,.2],0xffa1d1);const hairR=sphere(group,'hairR',[.34,2.57,-.04],[.16,.42,.2],0xffa1d1);
+const armL=limb(group,[-.48,1.78,0],[.13,.4,.14],skin);armL.rotation.z=-.22;const armR=limb(group,[.48,1.78,0],[.13,.4,.14],skin);armR.rotation.z=.22;
+const legL=limb(group,[-.16,.65,0],[.14,.52,.15],skin);const legR=limb(group,[.16,.65,0],[.14,.52,.15],skin);
+const shoeL=sphere(group,'shoeL',[-.17,.16,.09],[.19,.11,.28],palette.pink);const shoeR=sphere(group,'shoeR',[.17,.16,.09],[.19,.11,.28],palette.pink);
+const skirt=cyl(group,'skirt',[0,1.25,0],.57,.34,.58,palette.pink);skirt.scale.z=.78;
+const belt=cyl(group,'belt',[0,1.52,0],.39,.39,.08,palette.gold);
+const crown=new THREE.Group();group.add(crown);crown.position.set(0,3.07,.02);
+for(let i=0;i<5;i++){const p=sphere(crown,'gem',[(i-2)*.13,.05,0],[.07,.14,.06],palette.gold);p.position.y=.03+(i%2)*.07}
+const starMat=new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffb4df,emissiveIntensity:1});
+const stars=[];
+for(let i=0;i<18;i++){const s=new THREE.Mesh(new THREE.OctahedronGeometry(.055+(i%3)*.018),starMat);s.position.set(Math.sin(i*2.3)*2.1,.4+(i%7)*.48,Math.cos(i*1.7)*.8);s.userData.phase=i;scene.add(s);stars.push(s)}
+
+function updateCharacter(){
+ const outfit=items.outfit[selected.outfit],hair=items.hair[selected.hair],shoes=items.shoes[selected.shoes],acc=items.accessory[selected.accessory];
+ body.material.color.setHex(outfit.color);skirt.material.color.setHex(outfit.color);belt.material.color.setHex(acc.color);
+ [hairTop,bangs,hairL,hairR].forEach(m=>m.material.color.setHex(hair.color));
+ [shoeL,shoeR].forEach(m=>m.material.color.setHex(shoes.color));
+ crown.children.forEach(m=>m.material.color.setHex(acc.color));
+ const names=['Cotton Candy Princess','Lavender Dream','Angel in the Clouds','Sky Pop Star','Cherry Glam','Midnight Runway'];
+ document.getElementById('lookName').textContent=names[selected.outfit]||'Fashion Icon';
+ document.getElementById('themeTag').textContent=['🌸 Pink Fantasy','💜 Dreamy Violet','🤍 Angel Core','🩵 Sky Pop','🍒 Cherry Glam','🖤 Midnight Chic'][selected.outfit];
+}
+function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+new ResizeObserver(resize).observe(canvas);
+let dragging=false,lastX=0,autoSpin=true;
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(dragging){group.rotation.y+=(e.clientX-lastX)*.012;lastX=e.clientX;autoSpin=false}});
+canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+document.getElementById('spin').onclick=()=>{autoSpin=!autoSpin;toast(autoSpin?'Chế độ xoay tự động bật 🔄':'Đã dừng xoay')};
+document.getElementById('sparkle').onclick=()=>{stars.forEach(s=>s.scale.setScalar(1.8));setTimeout(()=>stars.forEach(s=>s.scale.setScalar(1)),700);toast('Lấp lánh phép thuật! ✨')};
+document.getElementById('daily').onclick=()=>toast('🎁 Bạn nhận được 50 xu thời trang! (demo)');
+document.getElementById('judge').onclick=()=>{
+ const base=items.outfit[selected.outfit].score+items.hair[selected.hair].score+items.shoes[selected.shoes].score+items.accessory[selected.accessory].score;
+ const harmony=(new Set([selected.outfit,selected.hair,selected.shoes,selected.accessory])).size;
+ score=Math.min(100,Math.round(base*.78+harmony*3+Math.random()*8));
+ document.getElementById('score').textContent=score+' / 100 điểm';
+ document.getElementById('progress').style.width=score+'%';
+ const msg=score>88?'HOÀN HẢO! Bạn là nữ hoàng sàn diễn 👑':score>72?'Đỉnh quá! Outfit rất có gu 💖':'Không tệ! Thử mix thêm phụ kiện nha ✨';
+ document.getElementById('challengeText').textContent=msg;
+ group.rotation.y+=Math.PI*2;stars.forEach(s=>s.material.emissiveIntensity=2);
+ toast(msg);
+ setTimeout(()=>stars.forEach(s=>s.material.emissiveIntensity=1),1000);
+};
+let clock=new THREE.Clock();
+function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();if(autoSpin&&!dragging)group.rotation.y=Math.sin(t*.3)*.16;group.position.y=Math.sin(t*1.5)*.035;ring.rotation.z=t*.12;stars.forEach(s=>{s.rotation.x=t*.5+s.userData.phase; s.rotation.y=t*.7;s.position.y+=Math.sin(t*1.5+s.userData.phase)*.0008});renderer.render(scene,camera)}
+renderOptions();updateCharacter();resize();animate();
+</script>
+</body>
+</html>
